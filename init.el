@@ -16,6 +16,9 @@
 ;; Do not use `init.el` for `custom-*` code - use `custom-file.el`.
 (setq custom-file "~/.emacs.d/custom-file.el")
 
+;;dont make backup files
+(setq make-backup-files nil)
+
 ;; Assuming that the code in custom-file is execute before the code
 ;; ahead of this line is not a safe assumption. So load this file
 ;; proactively.
@@ -36,6 +39,7 @@
 
 ;;wrap text globally in all modes
 (setq-default global-visual-line-mode t)
+(setq column-number-mode t)
 
 ;; Additional packages and their configurations
 (use-package spacemacs-theme
@@ -207,3 +211,12 @@
 
 (setq lsp-go-analyses '((shadow . t)
                         (simplifycompositelit . :json-false)))
+
+
+;; python
+(use-package lsp-jedi
+  :ensure t)
+
+(package-install 'flycheck)
+
+(global-flycheck-mode)
