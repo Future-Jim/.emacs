@@ -1,6 +1,9 @@
 7;; Do not show the startup screen.
 (setq inhibit-startup-message t)
 
+;;KBD
+(global-set-key (kbd "C-t") 'treemacs)
+
 ;; Disable tool bar, menu bar, scroll bar.
 (tool-bar-mode -1)
 (menu-bar-mode -1)
@@ -35,9 +38,10 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-
 ;;wrap text globally in all modes
 (setq-default global-visual-line-mode t)
+;; set column-number-mode
+
 (setq column-number-mode t)
 
 ;; Additional packages and their configurations
@@ -52,6 +56,10 @@
   ;; Use the `spacemacs-dark` theme.
   (load-theme 'spacemacs-dark))
 
+;; treemacs configuration
+(add-hook 'emacs-startup-hook 'treemacs)
+(setq treemacs-follow-mode t)
+(setq treemacs-show-hidden-files nil)
 
 (use-package company
   ;; Navigate in completion minibuffer with `C-n` and `C-p`.
@@ -153,7 +161,11 @@
 
 (put 'erase-buffer 'disabled nil)
 
-;;rust TBF
+
+
+;; PROGRAMMING CONFIGURATIONS (RUST, GOLANG, PYTHON)
+
+;;rust 
 (use-package rust-mode)
 
 ;;this should enable lsp mode in order for rust-analyzer (~/.local/bin/rust-analyzer) to be enabled
@@ -171,28 +183,11 @@
 (add-to-list 'exec-path "/usr/local/go/bin")
 (add-hook 'before-save-hook 'gofmt-before-save)
 
+
+;; go configuration
 (defun auto-complete-for-go ()
   (auto-complete-mode 1))
 (add-hook 'go-mode-hook 'auto-complete-for-go)
-
-(use-package dired-sidebar
-  :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
-  :ensure t
-  :commands (dired-sidebar-toggle-sidebar)
-  :init
-  (add-hook 'dired-sidebar-mode-hook
-            (lambda ()
-              (unless (file-remote-p default-directory)
-                (auto-revert-mode))))
-  :config
-  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
-  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-
-  (setq dired-sidebar-subtree-line-prefix "__")
-  (setq dired-sidebar-theme 'vscode)
-  (setq dired-sidebar-use-term-integration t)
-  (setq dired-sidebar-use-custom-font t))
-
 
 (require 'lsp-mode)
 (add-hook 'go-mode-hook #'lsp-deferred)
@@ -211,11 +206,6 @@
 (setq lsp-go-analyses '((shadow . t)
                         (simplifycompositelit . :json-false)))
 
-
 ;; python
 (use-package lsp-jedi
   :ensure t)
-
-(package-install 'flycheck)
-
-(global-flycheck-mode)
