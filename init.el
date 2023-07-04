@@ -12,7 +12,6 @@
 ;; Highlight current line.
 (global-hl-line-mode t)
 
-
 ;; Do not use `init.el` for `custom-*` code - use `custom-file.el`.
 (setq custom-file "~/.emacs.d/custom-file.el")
 
